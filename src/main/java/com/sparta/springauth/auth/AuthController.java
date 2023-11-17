@@ -35,7 +35,7 @@ public class AuthController {
     @GetMapping("/create-session")
     public String createSession(HttpServletRequest req) {
         // 세션이 존재할 경우 세션 반환, 없을 경우 새로운 세션을 생성한 후 반환
-        HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession(false);
 
         // 세션에 저장될 정보 Name - Value 를 추가합니다.
         session.setAttribute(AUTHORIZATION_HEADER, "Robbie Auth");
