@@ -1,11 +1,12 @@
 package com.sparta.springauth.controller;
 
-import com.sparta.springauth.dto.LoginRequestDto;
+import com.sparta.springauth.dto.MsgResponseDto;
 import com.sparta.springauth.dto.SignupRequestDto;
 import com.sparta.springauth.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -37,18 +38,21 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public String signup(@Valid SignupRequestDto requestDto, BindingResult bindingResult) {
+    public ResponseEntity<MsgResponseDto> signup(@Valid SignupRequestDto requestDto, BindingResult bindingResult) {
         // Validation 예외처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if(fieldErrors.size() > 0) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
             }
-            return "redirect:/api/user/signup";
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header("Location", "/api/user/signup")
+                    .build();
         }
 
         userService.signup(requestDto);
 
-        return "redirect:/api/user/login-page";
+
+        return ResponseEntity.ok(new MsgResponseDto("회원가입 완료", HttpStatus.OK.value()));
     }
 }
