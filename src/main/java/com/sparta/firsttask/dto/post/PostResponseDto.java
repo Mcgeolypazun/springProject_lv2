@@ -23,7 +23,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.activatedAt = post.getActivatedAt();
-        this.username = post.getUsername();
+        this.username = post.getUser().getUsername();
         //this.author = post.getUser().getUsername();
     }
 }

@@ -10,4 +10,6 @@ public class ProfileRequestDto {
     private String title;
     private String content;
     private String intro;
+    private String username;
+    private String password;
 }

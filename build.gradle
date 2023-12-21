@@ -36,6 +36,16 @@ dependencies {
     //db
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java:8.0.28'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.1'
+
+    // JWT
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    // mail
+    implementation 'org.springframework:spring-context-support'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
