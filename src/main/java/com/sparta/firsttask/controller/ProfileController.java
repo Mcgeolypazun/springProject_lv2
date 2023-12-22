@@ -6,7 +6,6 @@ import com.sparta.firsttask.dto.ProfileRequestDto;
 import com.sparta.firsttask.dto.ProfileResponseDto;
 import com.sparta.firsttask.service.ProfileService;
 import java.util.NoSuchElementException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 
 @RestController
@@ -33,7 +31,8 @@ public class ProfileController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody ProfileRequestDto requestDto) {
+  public ResponseEntity<?> updateProfile(@PathVariable Long id,
+      @RequestBody ProfileRequestDto requestDto) {
     try {
       ProfileResponseDto response = profileService.updateProfile(id, requestDto);
       return ResponseEntity.ok(response);

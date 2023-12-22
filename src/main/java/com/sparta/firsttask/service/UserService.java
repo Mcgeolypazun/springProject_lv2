@@ -4,7 +4,6 @@ import com.sparta.firsttask.dto.JwtUser;
 import com.sparta.firsttask.dto.LoginRequestDto;
 import com.sparta.firsttask.dto.SignupRequestDto;
 import com.sparta.firsttask.entity.User;
-import com.sparta.firsttask.entity.UserRole;
 import com.sparta.firsttask.entity.UserRoleEnum;
 import com.sparta.firsttask.repository.UserRepository;
 import java.util.Optional;

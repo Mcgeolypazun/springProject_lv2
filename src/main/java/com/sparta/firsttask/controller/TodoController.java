@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,7 +36,8 @@ public class TodoController {
   }
 
   @PutMapping("/{id}")
-  public TodoResponseDto updateTodoOne(@PathVariable Long id,@RequestBody TodoRequestDto todoRequestDto) {
+  public TodoResponseDto updateTodoOne(@PathVariable Long id,
+      @RequestBody TodoRequestDto todoRequestDto) {
     return todoService.updateTodoOne(todoRequestDto, id);
   }
 
@@ -57,7 +57,7 @@ public class TodoController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteTodo(@PathVariable Long id){
+  public ResponseEntity<String> deleteTodo(@PathVariable Long id) {
     return todoService.deleteTodo(id);
   }
 

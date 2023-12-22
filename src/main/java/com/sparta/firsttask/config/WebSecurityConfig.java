@@ -4,8 +4,6 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.firsttask.entity.UserRoleEnum;
 import com.sparta.firsttask.jwt.JwtAuthenticationFilter;
 import com.sparta.firsttask.jwt.JwtAuthorizationFilter;
 import com.sparta.firsttask.jwt.JwtUtil;
@@ -19,9 +17,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -41,13 +36,6 @@ public class WebSecurityConfig {
     return configuration.getAuthenticationManager();
   }
 
-  // docker run -p 5432:5432 -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=teasun -e POSTGRES_DB=messenger --name postgres_boot -d postgres
-
-  // docker exec -i -t postgres_boot bash
-  // su - postgres
-  // psql --username teasun --dbname messenger
-  // \list (데이터 베이스 조회)
-  // \dt (테이블 조회)
   @Bean
   public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
     JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);

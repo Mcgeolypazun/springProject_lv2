@@ -20,15 +20,17 @@ public class ExceptionController {
 
   @ExceptionHandler(NotFoundEntityException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public MessageDto notFound(NotFoundEntityException ex){
+  public MessageDto notFound(NotFoundEntityException ex) {
     String message = ex.getMessage();
-    if(message == null) message = "존재하지 않습니다.";
+    if (message == null) {
+      message = "존재하지 않습니다.";
+    }
     return new MessageDto(message);
   }
 
   @ExceptionHandler({AccessDeniedException.class})
   @ResponseStatus(HttpStatus.FORBIDDEN)
-  public MessageDto notAllowed(AccessDeniedException ex){
+  public MessageDto notAllowed(AccessDeniedException ex) {
     return new MessageDto(ex.getMessage());
   }
 }

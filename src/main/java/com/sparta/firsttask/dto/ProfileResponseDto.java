@@ -15,7 +15,7 @@ public class ProfileResponseDto {
   private String email;
 
 
-  // ProfileUser를 받아서 ProfileResponseDto로 변환하는 생성자 추가
+  // Profile User를 받아서 ProfileResponseDto로 변환하는 생성자 추가
   public ProfileResponseDto(User user) {
     this.id = user.getId();
     this.username = user.getUsername();

@@ -1,17 +1,12 @@
 package com.sparta.firsttask.jwt;
 
-import static com.sparta.firsttask.jwt.JwtUtil.ACCESS_TYPE;
-
-import com.sparta.firsttask.dto.JwtUser;
 import com.sparta.firsttask.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,53 +19,54 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j(topic = "JWT 검증 및 인가")
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
-    private final UserDetailsServiceImpl userDetailsService;
+  private final JwtUtil jwtUtil;
+  private final UserDetailsServiceImpl userDetailsService;
 
-    public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
-        this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
+  public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
+    this.jwtUtil = jwtUtil;
+    this.userDetailsService = userDetailsService;
+  }
+
+  @Override
+  protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
+      FilterChain filterChain) throws ServletException, IOException {
+
+    String tokenValue = jwtUtil.getJwtFromHeader(req);
+
+    if (StringUtils.hasText(tokenValue)) {
+
+      if (!jwtUtil.validateToken(tokenValue)) {
+        log.error("Token Error");
+        return;
+      }
+
+      Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
+
+      try {
+        setAuthentication(info.getSubject());
+      } catch (Exception e) {
+        log.error(e.getMessage());
+        return;
+      }
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
+    filterChain.doFilter(req, res);
+  }
 
-        String tokenValue = jwtUtil.getJwtFromHeader(req);
+  // 인증 처리
+  public void setAuthentication(String username) {
+    SecurityContext context = SecurityContextHolder.createEmptyContext();
+    Authentication authentication = createAuthentication(username);
+    context.setAuthentication(authentication);
 
-        if (StringUtils.hasText(tokenValue)) {
+    SecurityContextHolder.setContext(context);
+  }
 
-            if (!jwtUtil.validateToken(tokenValue)) {
-                log.error("Token Error");
-                return;
-            }
-
-            Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-
-            try {
-                setAuthentication(info.getSubject());
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return;
-            }
-        }
-
-        filterChain.doFilter(req, res);
-    }
-
-    // 인증 처리
-    public void setAuthentication(String username) {
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        Authentication authentication = createAuthentication(username);
-        context.setAuthentication(authentication);
-
-        SecurityContextHolder.setContext(context);
-    }
-
-    // 인증 객체 생성
-    private Authentication createAuthentication(String username) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    }
+  // 인증 객체 생성
+  private Authentication createAuthentication(String username) {
+    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+  }
 
 
 }
