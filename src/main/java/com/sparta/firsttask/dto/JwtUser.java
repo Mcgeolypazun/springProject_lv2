@@ -13,5 +13,6 @@ public record JwtUser(
     public static JwtUser of(User user) {
         return new JwtUser(user.getId(), user.getUsername(), user.getRole());
     }
+
 }
 
