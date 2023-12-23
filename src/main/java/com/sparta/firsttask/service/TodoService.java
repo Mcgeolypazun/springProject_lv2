@@ -2,6 +2,7 @@ package com.sparta.firsttask.service;
 
 import com.sparta.firsttask.dto.JwtUser;
 import com.sparta.firsttask.dto.MsgResponseDto;
+import com.sparta.firsttask.dto.TodoPageDto;
 import com.sparta.firsttask.dto.TodoRequestDto;
 import com.sparta.firsttask.dto.TodoResponseDto;
 import com.sparta.firsttask.entity.Todo;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,10 +46,24 @@ public class TodoService {
 
   }
 
-  public List<TodoResponseDto> getTodoList() {
-    return todoRepository.findAll().stream()
+  public TodoPageDto getTodoList(Pageable pageable) {
+    Page<Todo> result = todoRepository.findAll(pageable);
+    	/**
+       * * Returns the page content as {@link List}.
+	     *
+	     * @return
+       * List<T> getContent();
+       */
+    var data = result.getContent().stream()
         .map(TodoResponseDto::of)
-        .collect(Collectors.toList());
+        .toList();
+
+    return new TodoPageDto(data,
+        result.getTotalElements(),
+        result.getTotalPages(),
+        pageable.getPageNumber(),
+        data.size()
+        );
   }
 
   public ResponseEntity<Void> checkTodo(Long id) {

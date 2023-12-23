@@ -1,5 +1,6 @@
 package com.sparta.firsttask.controller;
 
+import com.sparta.firsttask.dto.TodoPageDto;
 import com.sparta.firsttask.dto.TodoRequestDto;
 import com.sparta.firsttask.dto.TodoResponseDto;
 import com.sparta.firsttask.entity.Todo;
@@ -7,6 +8,7 @@ import com.sparta.firsttask.repository.TodoRepository;
 import com.sparta.firsttask.service.TodoService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,8 +49,8 @@ public class TodoController {
   }
 
   @GetMapping("/list")
-  public List<TodoResponseDto> getTodoList() {
-    return todoService.getTodoList();
+  public TodoPageDto getTodoList(Pageable pageable) {
+    return todoService.getTodoList(pageable);
   }
 
   @PutMapping("/check/{id}")
