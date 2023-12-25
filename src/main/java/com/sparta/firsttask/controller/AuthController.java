@@ -11,8 +11,11 @@ import com.sparta.firsttask.jwt.JwtUtil;
 import com.sparta.firsttask.service.UserService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,11 +34,13 @@ public class AuthController {
 //  private String EMAIL_AUTH_SUBJECT;
 
 
+
   @DeleteMapping("/signout")
   public ResponseEntity<?> signOut() {
     userService.signOut();
     return ResponseEntity.ok(new MessageDto("탈퇴했습니다."));
   }
+
 
   @GetMapping("/refresh")
   public ResponseEntity<?> refresh(@RequestHeader(value = AUTHORIZATION_HEADER, required = false) String token) {

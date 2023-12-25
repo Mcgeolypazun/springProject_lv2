@@ -94,7 +94,8 @@ public class WebSecurityConfig {
                 antMatcher(POST, "/api/v1/post"),
                 antMatcher(PUT, "/api/v1/post/**"),
                 antMatcher(DELETE,"/api/v1/post/**"),//postController
-                antMatcher(PATCH,"/api/v1/user/**")//profileController
+                antMatcher(PATCH,"/api/v1/user/**"),//profileController
+                antMatcher(GET,"/api/v1/user/**")
             ).hasRole(String.valueOf(UserRoleEnum.USER))
             .anyRequest().hasAuthority(UserRoleEnum.ADMIN.getAuthority()) // 그 외 모든 요청 인증처리 백오피스 구현하기
     );

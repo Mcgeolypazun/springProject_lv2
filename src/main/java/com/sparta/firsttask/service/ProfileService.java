@@ -16,12 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProfileService {
 
   private final UserRepository userRepository;
+  private final UserStatusService userStatusService;
 
   @Transactional
   public ProfileResponseDto updateProfile(Long id, ProfileRequestDto requestDto) {
     User profileUser = userRepository.findById(id)
         .orElseThrow(NoSuchElementException::new);
     profileUser.update(requestDto);
+
     return new ProfileResponseDto(profileUser);
   }
 

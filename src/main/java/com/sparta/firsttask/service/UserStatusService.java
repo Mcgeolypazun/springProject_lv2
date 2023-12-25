@@ -34,7 +34,7 @@ public class UserStatusService {
     public JwtUser getLoginUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object principal = auth.getPrincipal();
-        System.out.println(principal.getClass().getName());
+        //System.out.println(principal.getClass().getName());
         Optional<User> optionalUser = userRepository.findByUsername(auth.getName());
 
         if (!optionalUser.isPresent()) {

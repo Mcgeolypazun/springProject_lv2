@@ -24,16 +24,10 @@ public class UserController {
   @PostMapping("/signup")
   public ResponseEntity<MsgResponseDto> signup(
       @Valid @RequestBody SignupRequestDto userRequestDto) {
-    try {
-      userService.signup(userRequestDto);
-    } catch (IllegalArgumentException exception) {
-      return ResponseEntity.badRequest()
-          .body(new MsgResponseDto("중복된 username 입니다.", HttpStatus.BAD_REQUEST.value()));
-    }
-
-    return ResponseEntity.status(HttpStatus.CREATED.value())
-        .body(new MsgResponseDto("회원가입 성공", HttpStatus.CREATED.value()));
+    userService.signup(userRequestDto);
+    return ResponseEntity.ok(new MsgResponseDto("회원가입이 완료되었습니다.", HttpStatus.OK.value()));
   }
+
 
 }
 

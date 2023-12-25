@@ -36,9 +36,7 @@ public class ProfileController {
     try {
       ProfileResponseDto response = profileService.updateProfile(id, requestDto);
       return ResponseEntity.ok(response);
-    } catch (NoSuchElementException e) {
-      return ResponseEntity.notFound().build();
-    } catch (Exception e) {
+    }catch (Exception e) {
       return ResponseEntity.internalServerError().body(new MessageDto("Failed to update profile"));
     }
   }
