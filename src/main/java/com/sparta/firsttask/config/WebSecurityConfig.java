@@ -1,9 +1,13 @@
 package com.sparta.firsttask.config;
 
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
+import com.sparta.firsttask.entity.UserRoleEnum;
 import com.sparta.firsttask.jwt.JwtAuthenticationFilter;
 import com.sparta.firsttask.jwt.JwtAuthorizationFilter;
 import com.sparta.firsttask.jwt.JwtUtil;
@@ -74,7 +78,25 @@ public class WebSecurityConfig {
                 antMatcher(GET, "/api/v1/todo/**"),
                 antMatcher(GET, "/api/v1/todo/list")
             ).permitAll()
-            .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+            .requestMatchers(
+                antMatcher(GET,"/api/v1/todo/**"),
+                antMatcher(POST, "/api/v1/todo"),
+                antMatcher(PUT,"/api/v1/todo/**"),
+                antMatcher(GET,"/api/v1/todo/list"),
+                antMatcher(GET,"/api/v1/todo/list/**"),
+                antMatcher(PUT,"/api/v1/todo/check/**"),
+                antMatcher(DELETE,"/api/v1/todo/**"),
+                antMatcher(DELETE,"/api/v1/signout"),
+                antMatcher(GET,"/api/v1/refresh"),//authcontroller, TodoController까지 함
+                antMatcher(POST,"/api/v1/comment"),
+                antMatcher(DELETE,"/api/v1/comment/**"),
+                antMatcher(PATCH,"/api/v1/comment"), // commentController
+                antMatcher(POST, "/api/v1/post"),
+                antMatcher(PUT, "/api/v1/post/**"),
+                antMatcher(DELETE,"/api/v1/post/**"),//postController
+                antMatcher(PATCH,"/api/v1/user/**")//profileController
+            ).hasRole(String.valueOf(UserRoleEnum.USER))
+            .anyRequest().hasAuthority(UserRoleEnum.ADMIN.getAuthority()) // 그 외 모든 요청 인증처리 백오피스 구현하기
     );
 
 //    http.formLogin((formLogin) ->

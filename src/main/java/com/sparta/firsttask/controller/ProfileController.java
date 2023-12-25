@@ -26,7 +26,7 @@ public class ProfileController {
   }
 
   @GetMapping("/{id}")
-  public ProfileResponseDto getProfileById(@PathVariable Long id) {
+  public ResponseEntity<?> getProfileById(@PathVariable Long id) {
     return profileService.getProfile(id);
   }
 
