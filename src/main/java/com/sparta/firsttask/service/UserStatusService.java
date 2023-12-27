@@ -33,7 +33,7 @@ public class UserStatusService {
      */
     public JwtUser getLoginUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = auth.getPrincipal();
+        //Object principal = auth.getPrincipal();
         //System.out.println(principal.getClass().getName());
         Optional<User> optionalUser = userRepository.findByUsername(auth.getName());
 

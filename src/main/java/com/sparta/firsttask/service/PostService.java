@@ -54,7 +54,7 @@ public class PostService {
     Post post = postRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("선택한 게시글은 존재하지 않습니다."));
     postRepository.delete(post);
-    return ResponseEntity.ok().body("비밀번호가 일치하여 삭제 합니다.");
+    return ResponseEntity.ok().body("게시글을 삭제 합니다.");
   }
 
   public List<PostResponseDto> getPosts() {
